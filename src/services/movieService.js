@@ -14,7 +14,8 @@ export default {
     const newId = uuid();
     movies.push({ 
         id: newId, 
-        ...movieData
+        ...movieData,
+        rating: Number(movieData.rating)
     });
     return newId;
   }
