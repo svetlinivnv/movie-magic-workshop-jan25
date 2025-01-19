@@ -16,7 +16,7 @@ movieController.post('/create', (req, res) => {
 })
 
 movieController.get('/search', (req, res) => {
-    res.render('search');
+    res.render('search', { movies: movieService.getAll() });
 });
 
 movieController.get('/:movieId/details', (req, res) => {
