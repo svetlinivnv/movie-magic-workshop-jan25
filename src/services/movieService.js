@@ -1,9 +1,8 @@
-// import movies from "../movies.js";
-import Movies from "../models/movie.js";
+import Movie from "../models/movie.js";
 
 export default {
     getAll(filter = {}) {
-        let query = Movies.find({}); 
+        let query = Movie.find({}); 
 
         if (filter.search) {
           // TODO: fix partial case insensitive search
@@ -24,11 +23,11 @@ export default {
   getOne(movieId) {
     // TODO if movie is missing?
 
-    const result = Movies.findById(movieId);
+    const result = Movie.findById(movieId);
     return result;
   },
   create(movieData) {
-    const result = Movies.create({
+    const result = Movie.create({
       ...movieData,
       rating: Number(movieData.rating),
       year: Number(movieData.year),
