@@ -55,6 +55,7 @@ export default {
 
     // *Second way to attach cast to movie
     return Movie.findByIdAndUpdate(movieId, {$push: {casts: castId}});
-    
+    // return Movie.findByIdAndUpdate(movieId, {$push: {casts: {cast: castId}}});
+
   }
 };
