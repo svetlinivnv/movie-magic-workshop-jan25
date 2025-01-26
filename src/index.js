@@ -23,6 +23,9 @@ app.engine(
   "hbs",
   handlebars.engine({
     extname: "hbs",
+    runtimeOptions: {
+      allowProtoPropertiesByDefault: true,
+    },
     helpers: { 
         showRating: showRatingHelper 
     },
