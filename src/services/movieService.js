@@ -26,6 +26,9 @@ export default {
     const result = Movie.findById(movieId);
     return result;
   },
+  getOneWithCasts(movieId) {
+    return this.getOne(movieId).populate('casts');
+  },
   create(movieData) {
     const result = Movie.create({
       ...movieData,
@@ -37,8 +40,6 @@ export default {
 
   async attachCast(movieId, castId) {
     // First way to attach cast to movie
-    console.log(movieId);
-    
     const movie = await Movie.findById(movieId);
     movie.casts.push(castId);
     await movie.save();
