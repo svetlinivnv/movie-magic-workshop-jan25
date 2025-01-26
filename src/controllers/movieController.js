@@ -7,17 +7,17 @@ movieController.get('/create', (req, res) => {
     res.render('create');
 });
 
-movieController.post('/create', (req, res) => {
+movieController.post('/create', async (req, res) => {
     const newMovie = req.body;
 
-    movieService.create(newMovie);
+    await movieService.create(newMovie);
 
     res.redirect('/');
 })
 
-movieController.get('/search', (req, res) => {
+movieController.get('/search', async (req, res) => {
     const filter = req.query;
-    const movies = movieService.getAll(filter);
+    const movies = await movieService.getAll(filter);
 
     res.render('search', { movies, filter });
 });
