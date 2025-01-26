@@ -33,5 +33,18 @@ export default {
       year: Number(movieData.year),
   });
     return result;
+  },
+
+  async attachCast(movieId, castId) {
+    // First way to attach cast to movie
+    console.log(movieId);
+    
+    const movie = await Movie.findById(movieId);
+    movie.casts.push(castId);
+    await movie.save();
+    
+    return movie;
+
+    // Second way to attach cast to movie
   }
 };
