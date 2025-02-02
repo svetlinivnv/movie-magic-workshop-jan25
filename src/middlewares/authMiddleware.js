@@ -5,7 +5,7 @@ const SECRET = process.env.JWT_SECRET || 'BASICSECRET';
 export const authMiddleware = (req, res, next) => {
     const token = req.cookies['auth'];
     
-    if(!token) {
+    if (!token) {
         return next();
     }
 
