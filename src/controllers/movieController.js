@@ -26,8 +26,8 @@ movieController.get('/search', async (req, res) => {
 movieController.get('/:movieId/details', async (req, res) => {    
     const movieId = req.params.movieId;
     const movie = await movieService.getOneWithCasts(movieId);
-    const isCreator = movie.creator?.equals(req.user?.id);    
-    
+    const isCreator = movie.creator?.equals(req.user?.id);
+
     res.render('movie/details', { movie, isCreator });
 });
 
@@ -46,5 +46,55 @@ movieController.post('/:movieId/attach-cast', async (req, res) => {
     
     res.redirect(`/movies/${movieId}/details`);
 });
+
+movieController.get('/:movieId/delete', async (req, res) => {
+    const movieId = req.params.movieId;
+    const movie = await movieService.getOne(movieId);
+
+    if (!movie.creator?.equals(req.user?.id)) {
+        return res.redirect('/404');
+    }
+    
+    await movieService.delete(movieId);
+    res.redirect('/');
+});
+
+movieController.get('/:movieId/edit', async (req, res) => {
+    const movieId = req.params.movieId;
+    const movie = await movieService.getOne(movieId);
+
+    const categories = getCategoriesViewData(movie.category);
+
+    res.render('movie/edit', { movie, categories });
+});
+
+movieController.post('/:movieId/edit', async (req, res) => {
+    const movieId = req.params.movieId;
+    const movieData = req.body;
+
+    // TODO: check if user is creator
+    
+    await movieService.update(movieId, movieData);
+
+    res.redirect(`/movies/${movieId}/details`);
+});
+
+function getCategoriesViewData(category) {
+    let categoriesMap = {
+        'tv-show': 'TV Show',
+        'animation': 'Animation',
+        'movie': 'Movie',
+        'documentary': 'Documentary',
+        'short-film': 'Short Film',
+    };
+
+    const categories = Object.keys(categoriesMap).map(value => ({ 
+        value: value, 
+        label: categoriesMap[value],
+        selected: value === category ? 'selected' : '',
+    }));
+
+    return categories;
+}
 
 export default movieController;

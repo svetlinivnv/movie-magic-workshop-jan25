@@ -39,24 +39,18 @@ export default {
     return result;
   },
 
-  async attachCast(movieId, castId) {
+  attachCast(movieId, castId) {
     // TODO: Check if castId is not added already
-
-    // *First way to attach cast to movie
-    // const movie = await Movie.findById(movieId);
-    // if (movie.casts.includes(castId)) {
-    //   return;
-    // }
-
-    // movie.casts.push(castId);
-
-    // await movie.save();
-    
-    // return movie;
-
-    // *Second way to attach cast to movie
     return Movie.findByIdAndUpdate(movieId, {$push: {casts: castId}});
-    // return Movie.findByIdAndUpdate(movieId, {$push: {casts: {cast: castId}}});
+  },
+  
+  delete(movieId) {
+    return Movie.findByIdAndDelete(movieId);
+  },
 
+  update(movieId, movieData) {
+    console.log(movieData);
+    
+    return Movie.findByIdAndUpdate(movieId, movieData);
   }
 };
