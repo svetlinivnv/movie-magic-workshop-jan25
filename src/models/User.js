@@ -2,8 +2,26 @@ import { Schema, model } from 'mongoose';
 import bcrypt from 'bcrypt';
 
 const userSchema = new Schema({
-    email: String,
-    password: String,
+    email: {
+        type: String,
+        unique: true,
+        match: /\@[a-zA-Z]+.[a-zA-Z]+$/,
+        minLength: 10,
+    },
+    password: {
+        type: String,
+        match: /^\w+$/,
+        minLength: 6,
+    },
+});
+
+
+// Check if password matches rePassword using virtual property, that's not saved in DB
+userSchema.virtual('rePassword')
+    .set(function(rePassword) {
+        if(rePassword !== this.password) {
+            throw new Error('Passwords do not match!');
+        }
 });
 
 userSchema.pre('save', async function () {
