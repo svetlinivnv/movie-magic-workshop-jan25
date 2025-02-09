@@ -9,12 +9,22 @@ const movieSchema = new Schema({
         maxLength: [250, 'Maximum length is 250 characters!'],
         match: [/^[a-zA-Z 0-9]+$/, 'Title should be alphanumeric, digits and whitespaces!'],
     },
-    category: String,
+    category: {
+        type: String,
+        required: true,
+        enum: [
+            'tv-show',
+            'animation',
+            'movie',
+            'documentary',
+            'short-film'
+        ]
+    },
     genre: {
         type: String,
         required: [true, 'Genre is required!'],
         minLength: [5, 'Minimum length is 5 characters!'],
-        maxLength: [250, 'Maximum length is 250 characters!'],
+        maxLength: [250,  'Maximum length is 250 characters!'],
         match: [/^[a-zA-Z 0-9]+$/, 'Genre should be alphanumeric, digits and whitespaces!'],
     },
     director: {
@@ -34,6 +44,7 @@ const movieSchema = new Schema({
     },
     rating: {
         type: Number,
+        default: 1,
         min: 1,
         max: 5,
     },

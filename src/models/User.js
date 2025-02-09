@@ -5,13 +5,16 @@ const userSchema = new Schema({
     email: {
         type: String,
         unique: true,
+        required: true,
+        lowercaser: true, // sanitizer, that transforms email to lowercase 
         match: /\@[a-zA-Z]+.[a-zA-Z]+$/,
         minLength: 10,
     },
     password: {
         type: String,
         match: /^\w+$/,
-        minLength: 6,
+        minLength: [6, 'Password should be at least 6 characters long!'],
+        trim: true, // sanitizer that trims white spaces at frond and back of input
     },
 });
 
