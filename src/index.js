@@ -1,5 +1,6 @@
 import express from "express";
 import handlebars from "express-handlebars";
+import session from "express-session";
 import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
 import 'dotenv/config';
@@ -7,6 +8,7 @@ import 'dotenv/config';
 import routes from "./routes.js";
 import showRatingHelper from "./helpers/ratingHelper.js";
 import { authMiddleware } from "./middlewares/authMiddleware.js";
+import { tempData } from "./middlewares/temp-data-middleware.js";
 
 const app = express();
 
@@ -42,6 +44,17 @@ app.set("views", "./src/views");
 app.use("/static", express.static("src/public"));
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(session({
+  secret: 'adsasdasdadsadsadsad',
+  resave: false,
+  saveUninitialized: false,
+  cookie: { 
+    secure: false, 
+    httpOnly: true 
+  }
+}));
+
+app.use(tempData);
 app.use(authMiddleware);
 
 // setup routes
